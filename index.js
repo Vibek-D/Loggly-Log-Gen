@@ -13,23 +13,22 @@ fs.mkdirSync(process.cwd() + pathLogs, { recursive: true }, (error) => {
   } else console.log(`Dir created at ${new Date().toISOString()}`);
 });
 
-const jsonLog = {
-  logTime: new Date().toISOString(),
-  message: "This is a demo message",
-  logInfo: true,
-  serverName: "Test",
-}
-
 cron.schedule('*/1 * * * *', () => {
   console.log('Running a task every minute');
-  fs.appendFile(`${process.cwd()}/${pathLogs}/newFile_${new Date().toISOString().slice(0, 10)}_${count++}.txt`, writeFile(), (error) => {
+  const jsonLog = {
+    logTime: new Date().toISOString(),
+    message: "This is a demo message",
+    logInfo: true,
+    serverName: "Test",
+  }
+  fs.appendFile(`${process.cwd()}/${pathLogs}/newFile_${new Date().toISOString().slice(0, 10)}_${count++}.txt`, writeFile(jsonLog), (error) => {
     if (error) {
       console.log(error);
     } else console.log(`File created at ${new Date().toISOString()}`);
   });
 });
 
-const writeFile = () => {
+const writeFile = (jsonLog) => {
   return JSON.stringify(jsonLog) + '\n' + JSON.stringify(jsonLog) + '\n' + JSON.stringify(jsonLog) + '\n' + JSON.stringify(jsonLog);
 }
 
